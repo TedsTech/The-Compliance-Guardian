@@ -158,6 +158,77 @@
 .triage-item.tier-2 { border-left-color: #ffaa00; background: rgba(255,170,0,0.05); }
 .triage-item.tier-3 { border-left-color: #44aaff; background: rgba(68,170,255,0.05); }
 
+/* ── Live call input ── */
+.call-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.call-input {
+  flex: 1;
+  background: #111827;
+  border: 1px solid #2d3a4e;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  color: #e5e7eb;
+  font-size: 0.82rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.call-input:focus {
+  border-color: #00ff88;
+}
+
+.call-input::placeholder {
+  color: #4b5563;
+}
+
+.call-input:disabled {
+  opacity: 0.5;
+}
+
+.btn-submit-call {
+  background: linear-gradient(135deg, #ffaa00, #e09000);
+  color: #0a0e1a;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s, transform 0.1s;
+  min-width: 84px;
+}
+
+.btn-submit-call:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-submit-call:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Demo button — smaller, secondary style */
+.btn-demo {
+  background: transparent !important;
+  color: #6b7280 !important;
+  border: 1px solid #2d3a4e !important;
+  font-size: 0.78rem !important;
+  padding: 0.45rem 1rem !important;
+}
+
+.btn-demo:hover:not(:disabled) {
+  color: #9ca3af !important;
+  border-color: #4b5563 !important;
+  transform: none !important;
+}
+
 /* ── AI output panel ── */
 .ai-output-loading {
   color: #6b7280;
@@ -201,5 +272,71 @@
   line-height: 1.6;
   animation: fadeSlideIn 0.2s ease;
   font-family: 'Courier New', monospace;
+}
+
+/* ── Stat value base ── */
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* ── Timestamp on each call ── */
+.triage-time {
+  font-size: 0.6rem;
+  color: #4b5563;
+  margin-top: 0.15rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* ── Output actions row (toggle + copy) ── */
+.ai-output-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ── Copy button ── */
+.btn-copy {
+  background: transparent;
+  border: 1px solid #2d3a4e;
+  border-radius: 5px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.btn-copy:hover {
+  border-color: #00ff88;
+  color: #00ff88;
+}
+
+/* ── Export button ── */
+.btn-export {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.65rem 1rem;
+  background: transparent;
+  border: 1px solid #2d3a4e;
+  border-radius: 8px;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.btn-export:hover {
+  border-color: #00ff88;
+  color: #00ff88;
+  background: rgba(0, 255, 136, 0.04);
 }
 
