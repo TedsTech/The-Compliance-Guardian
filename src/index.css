@@ -1,0 +1,64 @@
+:root {
+  --dark-bg:      #080c1e;
+  --darker-bg:    #04070f;
+  --card-bg:      #111628;
+  --card-border:  rgba(255,255,255,0.07);
+  /* canonical colour tokens */
+  --neon-green:   #00ff88;
+  --danger-red:   #ff4444;
+  /* legacy aliases kept for compatibility */
+  --accent-green: #00ff88;
+  --accent-red:   #ff3333;
+  --accent-yellow:#ffaa00;
+  --accent-blue:  #00aaff;
+  --accent-amber: #ffaa00;
+  --text-primary: #e8eaf0;
+  --text-secondary: #8892a4;
+  --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --radius-card: 10px;
+  --shadow-green: 0 0 24px rgba(0,255,136,0.18);
+  --shadow-blue:  0 0 24px rgba(0,170,255,0.18);
+  --shadow-amber: 0 0 24px rgba(255,170,0,0.18);
+  --shadow-red:   0 0 24px rgba(255,51,51,0.18);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Override Leaflet dark theme */
+.leaflet-container {
+  background-color: var(--dark-bg) !important;
+}
+
+.leaflet-tile-loaded {
+  opacity: 0.8;
+}
+
+/* Recharts */
+.recharts-text {
+  fill: var(--text-primary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+}
+
+.recharts-legend-wrapper {
+  padding: 20px 0 !important;
+}

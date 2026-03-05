@@ -1,0 +1,102 @@
+.crime-map {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 15px;
+  background: rgba(10, 14, 39, 0.5);
+  color: #fff;
+  overflow: hidden;
+}
+
+.map-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: #00ff88;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.map-month-tag {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(0,255,136,0.12);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.map-loading {
+  text-align: center;
+  color: #ffd000;
+  font-size: 13px;
+  padding: 6px 0;
+}
+
+.map-wrapper {
+  flex: 3;
+  min-height: 240px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0,255,136,0.2);
+}
+
+.leaflet-container-custom { border-radius: 6px; }
+
+.district-tooltip {
+  background: rgba(0,0,0,0.6) !important;
+  border: none !important;
+  color: #fff !important;
+  font-size: 11px !important;
+}
+
+.chart-wrapper {
+  flex: 2;
+  min-height: 220px;
+  margin-top: 10px;
+}
+
+.chart-title {
+  font-size: 13px;
+  color: #a0a0a0;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.chart-empty {
+  color: #555;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.map-legend {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 8px 0 0;
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-item.total {
+  margin-left: auto;
+  color: #00ff88;
+  font-weight: 600;
+}

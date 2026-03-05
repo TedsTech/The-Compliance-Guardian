@@ -1,0 +1,31 @@
+# Environment variables (NEVER commit .env)
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist
+build
+
+# Node dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Optional npm cache directory
+.npm
+
+# Production build files
+coverage

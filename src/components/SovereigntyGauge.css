@@ -1,0 +1,134 @@
+.sovereignty-gauge {
+  background: rgba(8, 12, 30, 0.85);
+  border: 1px solid rgba(0, 255, 136, 0.32);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  box-shadow: var(--shadow-green), inset 0 1px 0 rgba(0,255,136,0.06);
+  backdrop-filter: blur(4px);
+}
+
+.sovereignty-gauge h2 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.45);
+}
+
+.gauge-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  margin: 0 0 10px 0;
+}
+
+.gauge-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 80%;
+}
+
+.ratio-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.ratio-value {
+  font-family: var(--font-mono);
+  font-size: 48px;
+  font-weight: bold;
+  text-shadow: 0 0 20px currentColor;
+}
+
+.ratio-label {
+  font-size: 11px;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mandate-display {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.mandate-value {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: #ffaa00;
+  font-weight: bold;
+}
+
+.mandate-label {
+  display: block;
+  font-size: 10px;
+  color: #a0a0a0;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status-indicator.compliant {
+  background-color: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+}
+
+.status-indicator.at-risk {
+  background-color: rgba(255, 51, 51, 0.1);
+  border: 1px solid #ff3333;
+  color: #ff3333;
+}
+
+.status-icon {
+  font-size: 18px;
+}
+
+.gauge-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.metric {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  border-radius: 6px;
+  border-left: 2px solid rgba(0,170,255,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-label {
+  font-size: 10px;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.metric-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00aaff;
+}

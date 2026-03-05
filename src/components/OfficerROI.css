@@ -1,0 +1,272 @@
+/* ─── OfficerROI.css ──────────────────────────────────────────────────────────── */
+
+.officer-roi {
+  background: rgba(26, 31, 58, 0.85);
+  border: 2px solid #44aaff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 0 28px rgba(68, 170, 255, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────────── */
+
+.roi-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roi-header h2 {
+  font-size: 13px;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #44aaff;
+  text-shadow: 0 0 10px rgba(68, 170, 255, 0.5);
+}
+
+.roi-subtitle {
+  font-size: 11px;
+  color: #707090;
+  margin: 0;
+}
+
+/* ─── Loading ─────────────────────────────────────────────────────────────────── */
+
+.roi-loading {
+  text-align: center;
+  color: #707090;
+  font-size: 13px;
+  padding: 20px 0;
+  letter-spacing: 1px;
+}
+
+/* ─── Tier Grid ───────────────────────────────────────────────────────────────── */
+
+.tier-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 900px) {
+  .tier-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Tier Card ───────────────────────────────────────────────────────────────── */
+
+.tier-card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1.5px solid var(--tier-color, #888);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 0 14px var(--tier-glow, rgba(255,255,255,0.1));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: box-shadow 0.3s;
+}
+
+.tier-card:hover {
+  box-shadow: 0 0 22px var(--tier-glow, rgba(255,255,255,0.15));
+}
+
+/* Header row */
+.tier-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tier-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.tier-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tier-label {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--tier-color, #e0e0e0);
+}
+
+/* Strategy badge */
+.tier-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.badge-protect {
+  background: rgba(255, 68, 68, 0.2);
+  color: #ff6666;
+  border: 1px solid rgba(255, 68, 68, 0.5);
+}
+
+.badge-automate {
+  background: rgba(255, 170, 0, 0.15);
+  color: #ffbb44;
+  border: 1px solid rgba(255, 170, 0, 0.5);
+}
+
+.badge-deflect {
+  background: rgba(68, 170, 255, 0.15);
+  color: #66bbff;
+  border: 1px solid rgba(68, 170, 255, 0.5);
+}
+
+/* Progress bar */
+.tier-bar-track {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.tier-bar-fill {
+  height: 100%;
+  background: var(--tier-color, #888);
+  border-radius: 4px;
+  transition: width 0.8s ease;
+  box-shadow: 0 0 6px var(--tier-color, #888);
+}
+
+.tier-bar-label {
+  font-size: 10px;
+  color: #808096;
+  margin: -4px 0 0 0;
+}
+
+/* Stats row */
+.tier-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 8px 6px;
+}
+
+.tier-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.tstat-value {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--tier-color, #e0e0e0);
+  font-family: 'Courier New', monospace;
+  line-height: 1;
+}
+
+.tstat-label {
+  font-size: 9px;
+  color: #606078;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Examples + strategy detail */
+.tier-examples {
+  font-size: 9px;
+  color: #9090aa;
+  margin: 0;
+  font-style: italic;
+}
+
+.tier-strategy-detail {
+  font-size: 10px;
+  color: #b0b0c8;
+  margin: 0;
+  border-left: 2px solid var(--tier-color, #888);
+  padding-left: 6px;
+  line-height: 1.4;
+}
+
+/* ─── Summary Row ──────────────────────────────────────────────────────────────── */
+
+.roi-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(0, 255, 136, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  border-radius: 8px;
+  padding: 12px 8px;
+  gap: 8px;
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  line-height: 1;
+}
+
+.stat-value.highlight-green {
+  color: #00ff88;
+  text-shadow: 0 0 12px rgba(0, 255, 136, 0.55);
+}
+
+.stat-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #808096;
+  text-align: center;
+}
+
+.summary-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(0, 255, 136, 0.2);
+  flex-shrink: 0;
+}
+
+/* ─── Conclusion ──────────────────────────────────────────────────────────────── */
+
+.roi-conclusion {
+  font-size: 11px;
+  color: #b0c8e0;
+  margin: 0;
+  text-align: center;
+  line-height: 1.6;
+  padding: 8px 12px;
+  background: rgba(68, 170, 255, 0.06);
+  border-radius: 6px;
+  border: 1px solid rgba(68, 170, 255, 0.15);
+}
+
+.roi-conclusion strong {
+  color: #00ff88;
+  font-weight: 900;
+}
