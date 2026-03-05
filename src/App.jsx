@@ -316,7 +316,7 @@ function App() {
     <div className="app">
       <header className="war-room-header">
         <h1>⚖️ COMPLIANCE GUARDIAN</h1>
-        <p className="subtitle">Montgomery Police Efficiency Optimization | SB 298 Compliance Monitor</p>
+        <p className="subtitle">Montgomery Police Efficiency Optimization | SB 298 Compliance · Scalable to All Class 3 Alabama Municipalities</p>
       </header>
 
       <div className="main-grid">

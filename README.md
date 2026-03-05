@@ -13,6 +13,8 @@ Prize Pool: **$5,000** | Track: **Public Safety**
 
 The Compliance Guardian is a high-stakes AI command center designed to protect the City of Montgomery from the 2026 State Takeover mandate (SB 298). By combining Bright Data MCP for real-time web intelligence and the Montgomery Open Data 911 feed, the system proves that Montgomery can meet efficiency standards through AI-assisted **Effective Strength** rather than raw headcounts.
 
+Beyond monitoring, the system is a **live dispatch tool**: a dispatcher types any incoming call description and the AI instantly classifies it, generates a pre-filled incident report (Tier 2), or answers the query live via Bright Data (Tier 3) — with one-click copy and a printable session report for ALEA submission. Every automated call is a real officer-minute reclaimed. Montgomery is the pilot. Every other Class 3 Alabama city is the market.
+
 | Metric | Value |
 |--------|-------|
 | **Current Officers** | 331 |
@@ -195,7 +197,7 @@ In dev, Vite proxies `/brightdata-sse` and `/brightdata-message` (see `vite.conf
 |-----|------|-------|-------------|
 | Day 0 | Mar 3 | **SETUP** — Accounts, keys, scaffold repo, verify ArcGIS | ✅ Working npm dev server<br/>✅ All .env keys populated |
 | Day 1 | Mar 4 | **DATA LAYER + AI PIPELINE** — Connect 911 API, Bright Data, Gemini; build all core components | ✅ Live 911 data from ArcGIS FeatureServer<br/>✅ BD MCP SSE transport wired<br/>✅ Gemini 2.0 Flash streaming<br/>✅ CallTriageSimulator (3-tier pipeline)<br/>✅ Clickable links in Reasoning Feed<br/>✅ Full UI polish pass (Inter font, CSS variables, glass cards) |
-| Day 2 | Mar 5 | **HARDENING** — Edge cases, fallbacks, mobile layout, Vercel env vars | 🔲 All fallbacks verified<br/>🔲 Vercel production deploy green |
+| Day 2 | Mar 5 | **HARDENING** — Live call triage, copy/export actions, keyword classifier, Vercel deploy | ✅ Live call input with AI triage<br/>✅ Copy report + Export PDF<br/>✅ Keyword fallback classifier<br/>✅ Commercial potential header copy |
 | Day 3 | Mar 6 | **DEMO PREP** — Seed data, dry-run judge scenario, tighten copy | 🔲 Demo script rehearsed<br/>🔲 No console errors on prod |
 | Day 4 | Mar 7 | **VIDEO** — Record 2-min Loom walkthrough | 🔲 Loom URL ready |
 | Day 5 | Mar 8 | **FINAL POLISH** — README, submission form draft | 🔲 All fields filled |
@@ -217,7 +219,7 @@ The interface is designed to look like a **Government Command Center** for max d
 | **ReasoningFeed** | Streaming AI transparency log; URLs are auto-linked | Custom component |
 | **ComplianceROI** | Line chart projecting deficit reduction timeline to full compliance | recharts LineChart |
 | **OfficerROI** | Officer efficiency KPI card showing time reclaimed per shift | React + CSS |
-| **CallTriageSimulator** | 3-tier AI pipeline demo: Tier 1 dispatch, Tier 2 Gemini report, Tier 3 Bright Data answer | Gemini + Bright Data |
+| **CallTriageSimulator** | **Live dispatch tool.** Dispatcher types any call → AI classifies into 3 tiers → Tier 2 auto-generates a copyable incident report → Tier 3 answers the query live via Bright Data. Session queue tracks time saved. One-click PDF export for ALEA compliance documentation. | Gemini + Bright Data |
 
 ---
 
@@ -340,21 +342,25 @@ Record a 2-minute Loom video:
    - Click **"🔄 Refresh 911 Data"**
    - Show real Montgomery calls flowing into the **Crime Map** and **Effective Strength** widget updating live.
 
-3. **AI Triage Pipeline (0:40–1:10)**
-   - Scroll to the **Call Triage Simulator**
-   - Run a Tier 2 call (fender bender) → Gemini generates a pre-filled incident report in real time
-   - Run a Tier 3 call (DMV hours) → Bright Data answers the query live
-   - Show officer time saved counter incrementing
+3. **Live Call Triage — The Action (0:40–1:20)**
+   - Scroll to the **Live Call Triage** input
+   - Type a real non-emergency: `"neighbor's dog has been barking for 3 hours"` → hit Enter
+   - AI classifies as Tier 2, generates a complete incident report in seconds
+   - Hit **📋 Copy** — "A dispatcher just saved 45 minutes of paperwork. No officer dispatched."
+   - Type an info query: `"what time does the Montgomery DMV close"` → Bright Data answers live
+   - Type an emergency: `"shooting at Oak Park, someone is down"` → instant Tier 1 dispatch flag
+   - Show the session stats: time saved counter, reports filed
+   - Click **📄 Export Session Report** — open the printable PDF. "This goes straight to ALEA."
 
-4. **Web Intelligence (1:10–1:35)**
+4. **Web Intelligence (1:20–1:40)**
    - Click **"🏙️ Load Local City Intel"** — WSFA & AL.com scraped via Bright Data MCP
-   - Click **"💼 Check MPD Hiring Pipeline"** — live job postings count
+   - Click **"💼 Check MPD Hiring Pipeline"** — live job postings count confirms hiring is not viable
    - Show **Reasoning Feed** with clickable SB 298 news links
 
-5. **Impact (1:35–2:00)**
+5. **Impact (1:40–2:00)**
    - Show **Compliance ROI** chart trending upward
-   - Point to the **green Sovereignty Gauge** — ratio ≥ 2.0, compliant!
-   - "With 51.7% non-emergency automation, Montgomery reaches 2.15 effective strength. Sovereignty maintained."
+   - Point to the **green Sovereignty Gauge** — ratio ≥ 2.0, compliant
+   - "With 51.7% non-emergency automation, Montgomery reaches 2.15 effective strength. Sovereignty maintained — and every Class 3 city in Alabama can run this same playbook."
 
 ---
 
@@ -380,5 +386,5 @@ Record a 2-minute Loom video:
 
 ---
 
-**Last Updated:** March 4, 2026  
-**Status:** ✅ Day 1 Complete — Data layer, AI pipeline, and full UI live
+**Last Updated:** March 5, 2026
+**Status:** ✅ Day 2 Complete — Live call triage, copy/export actions, keyword classifier, commercial pitch copy
