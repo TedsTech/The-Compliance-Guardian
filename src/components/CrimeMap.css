@@ -1,11 +1,11 @@
 .crime-map {
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 15px;
   background: rgba(10, 14, 39, 0.5);
   color: #fff;
-  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid #1e2a3a;
 }
 
 .map-title {
@@ -36,7 +36,7 @@
 }
 
 .map-wrapper {
-  flex: 3;
+  height: 360px;
   min-height: 240px;
   border-radius: 6px;
   overflow: hidden;
@@ -53,7 +53,6 @@
 }
 
 .chart-wrapper {
-  flex: 2;
   min-height: 220px;
   margin-top: 10px;
 }

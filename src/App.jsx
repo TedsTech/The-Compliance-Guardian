@@ -6,7 +6,7 @@ import EffectiveStrengthCalc from './components/EffectiveStrengthCalc'
 import ComplianceROI from './components/ComplianceROI'
 import { monitorSB298, monitorRedditSentiment, scrapeLocalNewsSentiment, fetchLocalCityIntel, scrapeMPDJobPostings, getCacheStatus } from './lib/brightdata'
 import { generateComplianceInsight } from './lib/ai'
-import { getLatestMonthStats, generateMockMonthStats, getTierBreakdown, getTrendData, fetchCrimeIncidents } from './lib/montgomery911'
+import { getLatestMonthStats, generateMockMonthStats, getTierBreakdown, getTrendData, fetchCrimeIncidents, fetch311Requests, OFFICER_MONTHLY_HOURS, WEIGHTED_HRS_PER_CALL } from './lib/montgomery911'
 import OfficerROI from './components/OfficerROI'
 import CallTriageSimulator from './components/CallTriageSimulator'
 import './App.css'
@@ -16,8 +16,8 @@ function App() {
   const [monthStats, setMonthStats] = useState(null)      // ArcGIS monthly totals
   const [trendData, setTrendData] = useState([])          // 12-month chart data
   const [tierBreakdown, setTierBreakdown] = useState([])  // Officer ROI tiers
-  const [automationRate, setAutomationRate] = useState(0.517) // 51.7% default
-  const [effectiveStrength, setEffectiveStrength] = useState(2.15)
+  const [automationRate, setAutomationRate] = useState(0.33) // ~33% non-emergency (ArcGIS real avg)
+  const [effectiveStrength, setEffectiveStrength] = useState(1.65) // 331 / 200.603 (baseline before AI)
   const [reasoning, setReasoning] = useState([])
   const [loading, setLoading] = useState(false)
   const [localIntelLoaded, setLocalIntelLoaded] = useState(false)
@@ -92,14 +92,23 @@ function App() {
       const t2 = tiers.find(t => t.id === 2)
       const t3 = tiers.find(t => t.id === 3)
       const savedHours = (t2?.officerHours ?? 0) + (t3?.officerHours ?? 0)
-      const newStrength = (CURRENT_OFFICERS + savedHours / 8) / (POPULATION / 1000)
+      const officerFTE = savedHours / OFFICER_MONTHLY_HOURS
+      const newStrength = (CURRENT_OFFICERS + officerFTE) / (POPULATION / 1000)
       setEffectiveStrength(Math.max(1.0, Math.min(4.0, +newStrength.toFixed(3))))
 
-      // Fetch real geo-located incident points from ArcGIS open data
+      // Fetch geo-located incidents from both data sources in parallel
+      let allIncidents = []
       try {
-        const incidents = await fetchCrimeIncidents({ limit: 1000 })
-        setCallData(incidents)
-        addReasoningLog(`📍 Mapped ${incidents.length.toLocaleString()} real incidents (OpenData YTD)`)
+        const [fireEms, serviceReqs] = await Promise.allSettled([
+          fetchCrimeIncidents({ limit: 1000 }),
+          fetch311Requests({ limit: 1000 })
+        ])
+        const fireData = fireEms.status === 'fulfilled' ? fireEms.value : []
+        const reqData  = serviceReqs.status === 'fulfilled' ? serviceReqs.value : []
+        allIncidents = [...fireData, ...reqData]
+        setCallData(allIncidents)
+        if (fireData.length) addReasoningLog(`📍 Fire/EMS: ${fireData.length.toLocaleString()} incidents (OpenData 2024 YTD)`)
+        if (reqData.length)  addReasoningLog(`📍 311 Requests: ${reqData.length.toLocaleString()} non-emergency service calls (mgmgis)`)
       } catch {
         addReasoningLog('⚠️ Incident map unavailable — map will be empty')
       }
@@ -125,8 +134,10 @@ function App() {
     setAutomationRate(newRate)
     // Use real monthly non-emergency count when available
     const nonEmCalls = monthStats?.nonEmergency ?? (callData.length * newRate)
-    const estimatedAutomatedHours = nonEmCalls * 1.0 // ~1 hr avg per non-emergency call
-    const newEffectiveStrength = (CURRENT_OFFICERS + (estimatedAutomatedHours / 8)) / (POPULATION / 1000)
+    // Tier-weighted avg: 63% × 1.0 hr (Tier 2) + 37% × 0.25 hr (Tier 3) = 0.7225 hr/call
+    const estimatedAutomatedHours = nonEmCalls * WEIGHTED_HRS_PER_CALL
+    const officerFTE = estimatedAutomatedHours / OFFICER_MONTHLY_HOURS
+    const newEffectiveStrength = (CURRENT_OFFICERS + officerFTE) / (POPULATION / 1000)
     setEffectiveStrength(Math.max(1.0, Math.min(4.0, +newEffectiveStrength.toFixed(3))))
     addReasoningLog(`⚙️ Automation rate adjusted to ${(newRate * 100).toFixed(1)}%`)
   }
@@ -335,11 +346,12 @@ function App() {
             effectiveRatio={effectiveStrength}
           />
           
-          <ComplianceROI 
+          <ComplianceROI
             deficit={DEFICIT}
             currentRatio={effectiveStrength}
             mandateRatio={MANDATE_RATIO}
             automationRate={automationRate}
+            nonEmergencyCalls={monthStats?.nonEmergency ?? 0}
           />
         </div>
 
