@@ -2,8 +2,9 @@ import { RadialBarChart, RadialBar, PolarAngleAxis, ResponsiveContainer } from '
 import './SovereigntyGauge.css'
 
 export default function SovereigntyGauge({ currentRatio, mandate, status }) {
-  const compliancePercent = (currentRatio / 3.0) * 100
-  const mandatePercent = (mandate / 3.0) * 100
+  // Scale against mandate (100% = exactly meeting mandate), not the gauge max of 3.0
+  const compliancePercent = (currentRatio / mandate) * 100
+  const mandatePercent = (mandate / mandate) * 100  // always 100 — kept for reference
   
   const data = [
     {

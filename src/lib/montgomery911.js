@@ -109,20 +109,30 @@ export async function getTrendData() {
 // ─── Compliance math ───────────────────────────────────────────────────────────
 
 /**
+ * Monthly work hours per officer (2,080 annual ÷ 12).
+ * Used to convert "hours freed by AI" → FTE officer-equivalents.
+ */
+export const OFFICER_MONTHLY_HOURS = 173
+
+/**
+ * Tier-weighted average officer-hours consumed per non-emergency call:
+ *   63% Tier 2 (admin) × 1.0 hr  +  37% Tier 3 (info) × 0.25 hr = 0.7225 hr/call
+ */
+export const WEIGHTED_HRS_PER_CALL = 0.63 * 1.0 + 0.37 * 0.25
+
+/**
  * SB 298 Effective Strength formula:
- *   (currentOfficers + officerEquivalents) / (population / 1000)
+ *   (currentOfficers + officerFTE) / (population / 1000)
  *
- * Officer equivalents = nonEmergency calls × avgHandleMinutes ÷ 60 ÷ avgShiftHours
+ * officerFTE = (nonEmergencyCalls × weightedHrsPerCall) / monthlyWorkHours
  */
 export function computeEffectiveStrength({
   currentOfficers = 331,
   population = 200603,
-  nonEmergencyCalls,
-  avgHandleMinutes = 12,
-  avgShiftHours = 8
+  nonEmergencyCalls
 }) {
-  const automatedHours = (nonEmergencyCalls * avgHandleMinutes) / 60
-  const officerEquivalents = automatedHours / avgShiftHours
+  const automatedHours = nonEmergencyCalls * WEIGHTED_HRS_PER_CALL
+  const officerEquivalents = automatedHours / OFFICER_MONTHLY_HOURS
   const effectiveOfficers = currentOfficers + officerEquivalents
   return {
     effectiveOfficers: Math.round(effectiveOfficers),
@@ -259,17 +269,23 @@ export function classifyCallTier(category) {
   return 2
 }
 
-// ─── Crime Incident Points (OpenDataData — real lat/lon) ──────────────────────
+// ─── Fire/EMS Incident Points (OpenDataData — real lat/lon) ─────────────────
 
 const INCIDENTS_BASE =
   'https://services7.arcgis.com/xNUwUjOJqYE54USz/arcgis/rest/services/OpenDataData_2024YTD_9_19_24/FeatureServer/0'
 
-// Incident types treated as Tier-1 emergency (anything else = non-emergency)
-const EMERGENCY_RE = /fire|assault|shooting|shot|weapon|robbery|robbe|domestic|homicide|rape|stab|carjack|kidnap|murder|burglary|break/i
+// Fire/EMS incident types classified as emergency (life-safety / active fire):
+//   EMS medical calls, structure fires, vehicle fires, MVAs with injuries,
+//   person in distress, extrication, hazmat, gas leaks
+// Everything else (false alarms, service calls, smoke scares, cancellations) = non-emergency
+const EMERGENCY_RE = /EMS call|building fire|structure.*fire|cooking fire|vehicle fire|rubbish fire|brush.*fire|natural vegetation fire|outside.*fire|chimney.*fire|fire in portable|accident with injur|MV Ped|person in distress|extrication|gas leak|chemical spill|carbon monoxide incident|hazmat|hazardous/i
 
 /**
- * Fetch geo-located incident points from the Montgomery open data Feature Layer.
+ * Fetch geo-located Fire/EMS incident points from the Montgomery open data Feature Layer.
  * Returns [{ id, incidentType, address, district, lat, lon, date, responseTime, emergency }]
+ *
+ * NOTE: This dataset is Fire/EMS dispatch, not police crime data.
+ * Police crime data is only available via CrimeMapping.com (no public API).
  *
  * The service is static (frozen at 2024-09-19) with up to 1000 records per page.
  * We fetch the most-recent `limit` records ordered by ObjectId DESC.
@@ -316,18 +332,82 @@ export async function fetchCrimeIncidents({ limit = 1000 } = {}) {
   })
 }
 
+// ─── 311 Service Requests (mgmgis — real non-emergency data with lat/lon) ────
+
+const SERVICE_311_BASE =
+  'https://mgmgis.montgomeryal.gov/arcgis/rest/services/HostedDatasets/Received_311_Service_Request/FeatureServer/0'
+
+// Request types that are pure info/FAQ queries → Tier 3 (DEFLECT)
+const TIER3_RE = /^(Inquiries|Ask 3-1-1|FAQ|Frequently Ask)/i
+
+/**
+ * Fetch recent geo-located 311 service requests from Montgomery city GIS.
+ * Returns the same shape as fetchCrimeIncidents so they can be merged into the map.
+ *
+ * 207,127 total records (Jan 2021 – Feb 2026). We fetch the most recent `limit`.
+ * All 311 requests are non-emergency; `tier` distinguishes Tier 2 (admin) vs 3 (info).
+ */
+export async function fetch311Requests({ limit = 1000 } = {}) {
+  const params = new URLSearchParams({
+    f: 'json',
+    where: 'Latitude IS NOT NULL AND Longitude IS NOT NULL',
+    outFields: [
+      'OBJECTID',
+      'Request_ID',
+      'Request_Type',
+      'Address',
+      'District',
+      'Department',
+      'Status',
+      'Latitude',
+      'Longitude',
+      'Create_Date'
+    ].join(','),
+    returnGeometry: 'false',
+    orderByFields: 'Create_Date DESC',
+    resultRecordCount: String(Math.min(limit, 2000))
+  })
+
+  const res = await fetch(`${SERVICE_311_BASE}/query?${params}`)
+  if (!res.ok) throw new Error(`311 Service HTTP ${res.status}`)
+  const json = await res.json()
+  if (json.error) throw new Error(`311 Service: ${json.error.message}`)
+
+  return (json.features || []).map(f => {
+    const a = f.attributes
+    const reqType = a.Request_Type || 'Unknown'
+    return {
+      id: `311-${a.Request_ID || a.OBJECTID}`,
+      incidentType: reqType,
+      address: a.Address || '',
+      district: a.District ? String(a.District) : '',
+      lat: a.Latitude,
+      lon: a.Longitude,
+      date: a.Create_Date,
+      responseTime: null,
+      emergency: false,                        // all 311 = non-emergency
+      tier: TIER3_RE.test(reqType) ? 3 : 2,   // info/FAQ → Tier 3, everything else → Tier 2
+      source: '311',
+      department: a.Department || '',
+      status: a.Status || ''
+    }
+  })
+}
+
 // ─── Mock data generator (dev / offline fallback) ──────────────────────────────
 
 /**
  * Generate mock monthly stats shaped like ArcGIS output.
- * Reflects realistic Montgomery dispatch distribution:
- *   ~48 % Emergency · ~33 % Non-Emergency Admin · ~19 % Non-Emergency Info
+ * Based on real Montgomery 911 data (2025–2026 ArcGIS FeatureServer):
+ *   ~67 % Emergency · ~33 % Non-Emergency
+ *   Range: 28,871 (Feb '26 low) – 42,879 (Jul '25 peak)
+ *   Latest month: 19,466 E + 9,405 NE = 28,871 total
  *
  * @returns {{ emergency: number, nonEmergency: number, total: number, automationRate: number }}
  */
 export function generateMockMonthStats() {
-  const emergency    = 4200 + Math.floor(Math.random() * 600)
-  const nonEmergency = 8600 + Math.floor(Math.random() * 800)
+  const emergency    = 19400 + Math.floor(Math.random() * 9600)  // 19,400–29,000
+  const nonEmergency = 9400  + Math.floor(Math.random() * 4600)  //  9,400–14,000
   const total        = emergency + nonEmergency
   return {
     year: 2026,

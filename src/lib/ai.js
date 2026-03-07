@@ -19,7 +19,7 @@ function buildFallbackInsight(ctx) {
   const gap = Math.abs((2.0 - ctx.ratio) * 200.603).toFixed(0)
   const total = ctx.emergency + ctx.nonEmergency
   const autoPercent = total > 0 ? ((ctx.nonEmergency / total) * 100).toFixed(1) : '0'
-  const officerEquiv = (ctx.nonEmergency * 0.2 / 8).toFixed(1)
+  const officerEquiv = (ctx.nonEmergency * 0.7225 / 173).toFixed(1)
 
   let verdict, wins
   if (ctx.ratio >= 2.0) {
@@ -33,7 +33,7 @@ function buildFallbackInsight(ctx) {
     verdict = `**Verdict:** Montgomery PD is ${status} at ${ctx.ratio.toFixed(3)} officers/1,000 — ${gap} officer-equivalents below the 2.0 SB 298 mandate. ALEA intervention risk is ELEVATED.`
     wins = [
       `**Scale AI dispatch triage** — ${ctx.nonEmergency.toLocaleString()} non-emergency calls (${autoPercent}% of total) can be AI-routed, freeing ~${officerEquiv} officer-equivalents per month.`,
-      `**Deploy self-service portal** — Online reporting for noise, parking, and welfare-check status reduces call volume by est. 15%, closing the gap by ~${(ctx.nonEmergency * 0.15 * 0.2 / 8).toFixed(1)} FTE.`,
+      `**Deploy self-service portal** — Online reporting for noise, parking, and welfare-check status reduces call volume by est. 15%, closing the gap by ~${(ctx.nonEmergency * 0.15 * 0.7225 / 173).toFixed(1)} FTE.`,
       `**Present to City Council NOW** — Document AI deployment plan to pre-empt ALEA takeover under SB 298 §4(b) before the compliance deadline.`
     ]
   }

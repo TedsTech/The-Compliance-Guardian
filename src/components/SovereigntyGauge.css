@@ -26,25 +26,30 @@
 
 .gauge-overlay {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  width: 80%;
+  width: 70%;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .ratio-display {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 2px;
+  background: rgba(8, 12, 30, 0.8);
+  padding: 8px 14px 6px;
+  border-radius: 10px;
 }
 
 .ratio-value {
   font-family: var(--font-mono);
-  font-size: 48px;
+  font-size: 40px;
   font-weight: bold;
-  text-shadow: 0 0 20px currentColor;
+  line-height: 1;
 }
 
 .ratio-label {
@@ -55,23 +60,23 @@
 }
 
 .mandate-display {
-  margin-top: 8px;
-  padding-top: 8px;
+  margin-top: 4px;
+  padding-top: 4px;
   border-top: 1px solid rgba(0, 255, 136, 0.3);
 }
 
 .mandate-value {
   font-family: var(--font-mono);
-  font-size: 20px;
+  font-size: 18px;
   color: #ffaa00;
   font-weight: bold;
 }
 
 .mandate-label {
   display: block;
-  font-size: 10px;
+  font-size: 9px;
   color: #a0a0a0;
-  margin-top: 3px;
+  margin-top: 2px;
   text-transform: uppercase;
 }
 
