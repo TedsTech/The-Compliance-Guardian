@@ -67,28 +67,36 @@ By automating **51.7% of calls** currently marked Non-Emergency in the Open Data
 ## 05 PROJECT STRUCTURE
 
 ```
-src/
-├── components/
-│   ├── SovereigntyGauge.jsx      ← Compliance meter (radial gauge, hero widget)
-│   ├── ReasoningFeed.jsx         ← Streaming AI transparency log (clickable links)
-│   ├── CrimeMap.jsx              ← 911 heatmap (react-leaflet)
-│   ├── EffectiveStrengthCalc.jsx ← Live Effective Strength formula widget
-│   ├── ComplianceROI.jsx         ← ROI projection line chart
-│   ├── OfficerROI.jsx            ← Officer efficiency KPI card
-│   └── CallTriageSimulator.jsx   ← 3-tier AI automation pipeline demo
-├── lib/
-│   ├── brightdata.js             ← Bright Data MCP over SSE (cached, singleton)
-│   ├── montgomery911.js          ← ArcGIS FeatureServer client + mock fallback
-│   └── ai.js                     ← Gemini 2.0 Flash + deterministic fallback
-├── App.jsx                       ← Root layout, all state, all data fetching
-├── App.css
-├── main.jsx
-├── index.css
-├── index.html
+The-Compliance-Guardian/
+├── index.html                          ← Vite entry point
 ├── package.json
-├── vite.config.js
-├── .env.example                  ← API key template (never commit .env)
-└── .gitignore
+├── vite.config.js                      ← Dev server proxy + build config
+├── .env.example                        ← API key template (never commit .env)
+├── .gitignore
+└── src/
+    ├── main.jsx                        ← React DOM mount
+    ├── App.jsx                         ← Root layout, all state, all data fetching
+    ├── App.css
+    ├── index.css
+    ├── components/
+    │   ├── SovereigntyGauge.jsx        ← Compliance meter (radial gauge, hero widget)
+    │   ├── SovereigntyGauge.css
+    │   ├── ReasoningFeed.jsx           ← Streaming AI transparency log (clickable links)
+    │   ├── ReasoningFeed.css
+    │   ├── CrimeMap.jsx                ← 911 heatmap (react-leaflet)
+    │   ├── CrimeMap.css
+    │   ├── EffectiveStrengthCalc.jsx   ← Live Effective Strength formula widget
+    │   ├── EffectiveStrengthCalc.css
+    │   ├── ComplianceROI.jsx           ← ROI projection line chart
+    │   ├── ComplianceROI.css
+    │   ├── OfficerROI.jsx              ← Officer efficiency KPI card
+    │   ├── OfficerROI.css
+    │   ├── CallTriageSimulator.jsx     ← 3-tier AI automation pipeline demo
+    │   └── CallTriageSimulator.css
+    └── lib/
+        ├── brightdata.js               ← Bright Data MCP over SSE (cached, singleton)
+        ├── montgomery911.js            ← ArcGIS FeatureServer client + mock fallback
+        └── ai.js                       ← Gemini 2.0 Flash + deterministic fallback
 ```
 
 ---
@@ -198,8 +206,8 @@ In dev, Vite proxies `/brightdata-sse` and `/brightdata-message` (see `vite.conf
 | Day 0 | Mar 3 | **SETUP** — Accounts, keys, scaffold repo, verify ArcGIS | ✅ Working npm dev server<br/>✅ All .env keys populated |
 | Day 1 | Mar 4 | **DATA LAYER + AI PIPELINE** — Connect 911 API, Bright Data, Gemini; build all core components | ✅ Live 911 data from ArcGIS FeatureServer<br/>✅ BD MCP SSE transport wired<br/>✅ Gemini 2.0 Flash streaming<br/>✅ CallTriageSimulator (3-tier pipeline)<br/>✅ Clickable links in Reasoning Feed<br/>✅ Full UI polish pass (Inter font, CSS variables, glass cards) |
 | Day 2 | Mar 5 | **HARDENING** — Live call triage, copy/export actions, keyword classifier, Vercel deploy | ✅ Live call input with AI triage<br/>✅ Copy report + Export PDF<br/>✅ Keyword fallback classifier<br/>✅ Commercial potential header copy |
-| Day 3 | Mar 6 | **DEMO PREP** — Seed data, dry-run judge scenario, tighten copy | 🔲 Demo script rehearsed<br/>🔲 No console errors on prod |
-| Day 4 | Mar 7 | **VIDEO** — Record 2-min Loom walkthrough | 🔲 Loom URL ready |
+| Day 3 | Mar 6 | **DEMO PREP** — Seed data, dry-run judge scenario, tighten copy | (rolled into Day 4) |
+| **Day 4** | **Mar 7** | **VIDEO + DEMO PREP** — Record 2-min Loom walkthrough, rehearse demo, clear prod errors | 🔲 Demo script rehearsed<br/>🔲 No console errors on prod<br/>🔲 Loom video recorded |
 | Day 5 | Mar 8 | **FINAL POLISH** — README, submission form draft | 🔲 All fields filled |
 | Day 6 | Mar 9 9am CT | **SUBMIT** — Final checks, submit on portal | 🔲 SUBMITTED |
 
@@ -386,5 +394,5 @@ Record a 2-minute Loom video:
 
 ---
 
-**Last Updated:** March 5, 2026
-**Status:** ✅ Day 2 Complete — Live call triage, copy/export actions, keyword classifier, commercial pitch copy
+**Last Updated:** March 7, 2026
+**Status:** Day 4 — Core app complete (Days 0-2). Demo recording and final polish pending.
