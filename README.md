@@ -140,18 +140,6 @@ VITE_MONTGOMERY_ARCGIS_BASE= # ArcGIS FeatureServer URL (optional, has fallback)
 
 ---
 
-## Why This Wins
-
-| Criteria | Our Approach |
-|----------|-------------|
-| **Relevance** | Directly addresses the Public Safety track using official Montgomery datasets. The judges include the City of Montgomery CTO and IT Manager — this is their problem. |
-| **Execution Quality** | Fully functional React app with live data, not a mockup. Real Bright Data API calls. Deployed to a public Vercel URL. |
-| **Originality** | The Effective Strength formula is a novel civic compliance concept. No other team has this framing. |
-| **Social Impact** | Addresses a real municipal sovereignty crisis for a real city with real stakes. |
-| **Commercial Potential** | Every Class 3 city in Alabama faces this same mandate. This is a scalable SaaS product for municipal compliance monitoring. |
-| **Bright Data Bonus** | MCP used for two distinct use cases: legislative monitoring + sentiment scraping. |
-
----
 
 ## Team
 
