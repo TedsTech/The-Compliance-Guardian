@@ -49,19 +49,29 @@ Key numbers:
 
 ```
 src/
+├── main.jsx                        ← React DOM mount
+├── App.jsx                         ← Root layout, all state, all data fetching
+├── App.css
+├── index.css
 ├── components/
-│   ├── SovereigntyGauge.jsx      ← Hero radial gauge (ratio vs 2.0 mandate)
-│   ├── ReasoningFeed.jsx         ← Streaming AI transparency log
-│   ├── CrimeMap.jsx              ← Leaflet map, color-coded by emergency tier
-│   ├── EffectiveStrengthCalc.jsx ← Live formula widget
-│   ├── ComplianceROI.jsx         ← ROI projection line chart
-│   └── OfficerROI.jsx            ← Officer efficiency widget
-├── lib/
-│   ├── brightdata.js             ← Bright Data MCP SSE client (with cache)
-│   ├── montgomery911.js          ← ArcGIS FeatureServer client + mock fallback
-│   └── ai.js                    ← Gemini client + deterministic fallback
-├── App.jsx                       ← Main war room layout
-└── main.jsx
+│   ├── SovereigntyGauge.jsx        ← Hero radial gauge (ratio vs 2.0 mandate)
+│   ├── SovereigntyGauge.css
+│   ├── ReasoningFeed.jsx           ← Streaming AI transparency log
+│   ├── ReasoningFeed.css
+│   ├── CrimeMap.jsx                ← Leaflet map, color-coded by emergency tier
+│   ├── CrimeMap.css
+│   ├── EffectiveStrengthCalc.jsx   ← Live formula widget
+│   ├── EffectiveStrengthCalc.css
+│   ├── ComplianceROI.jsx           ← ROI projection line chart
+│   ├── ComplianceROI.css
+│   ├── OfficerROI.jsx              ← Officer efficiency KPI card
+│   ├── OfficerROI.css
+│   ├── CallTriageSimulator.jsx     ← 3-tier AI automation pipeline demo
+│   └── CallTriageSimulator.css
+└── lib/
+    ├── brightdata.js               ← Bright Data MCP SSE client (with cache)
+    ├── montgomery911.js            ← ArcGIS FeatureServer client + mock fallback
+    └── ai.js                       ← Gemini client + deterministic fallback
 ```
 
 ---
@@ -201,12 +211,12 @@ const mock = generateMockCalls() // use when ArcGIS is unavailable
 
 ```bash
 npm install          # Install dependencies
-npm run dev          # Dev server at http://localhost:5173
+npm run dev          # Dev server at http://localhost:3000
 npm run build        # Production build
 npm run preview      # Preview production build locally
 ```
 
-Vite runs on **port 5173** by default (check `vite.config.js` for proxy settings).
+Vite is configured to run on **port 3000** (see `vite.config.js` for proxy settings).
 
 ---
 
